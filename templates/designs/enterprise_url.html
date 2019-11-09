@@ -1,0 +1,174 @@
+{% extends "designs/base.html" %}
+
+{% block head_content %}
+    <title>{{ enterprise.enterprise_name }}'s designs</title>
+{% endblock %}
+
+{% block container %}
+    <h1>Pagina de {{ enterprise.enterprise_name }}</h1>
+    <section class="content">
+        <!-- Fila 1: Vista de proyectos y diseños -->
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class= "box-title"><i class="fa fa-paint-brush"></i>   Diseños de {{ enterprise.enterprise_name }}</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="box-group" id="accordion">
+                            {% for key in content %}
+                                <div class="panel box box-success">
+                                    <div class="box-header with-border">
+                                        <h4 class="box-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ forloop.counter }}">
+                                                {{ key.project.project_name }}
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    {% if forloop.counter == 1%}
+                                        <div id="collapse{{ forloop.counter }}" class="panel-collapse collapse in">
+                                    {% else %}
+                                        <div id="collapse{{ forloop.counter }}" class="panel-collapse collapse">
+                                    {% endif %}
+                                        <div class="box-body">
+                                            <div id="myCarousel{{ forloop.counter }}" class="carousel slide" data-ride="carousel">
+                                                <div class="carousel-inner">
+                                                    {% for element in key.designs %}
+                                                        {% if forloop.counter == 1%}
+                                                            <div class="item active">
+                                                        {% else %}
+                                                            <div class="item">
+                                                        {% endif %}
+                                                            <img src="{{element.image.0.image_original.url}}" 
+                                                                alt="{{ element.design.design_name }}" 
+                                                                style="max-width:450px;max-height:450px;display: block;
+                                                                margin-left: auto;
+                                                                margin-right: auto;
+                                                                width: 50%;">
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                                <a class="left carousel-control" href="#myCarousel{{ forloop.counter }}" data-slide="prev">
+                                                    <span class="glyphicon glyphicon-chevron-left"></span>
+                                                    <span class="sr-only">Anterior</span>
+                                                </a>
+                                                <a class="right carousel-control" href="#myCarousel{{ forloop.counter }}" data-slide="next">
+                                                    <span class="glyphicon glyphicon-chevron-right"></span>
+                                                    <span class="sr-only">Siguiente</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fin Fila 1 -->
+
+        <!-- Fila 2 -->
+        <div class="row">
+            <div class="col-xs-offset-3 col-xs-6">
+                <div class="box box-danger">
+                    <div class="box-header with-border">
+                        <h3 class= "box-title"><i class="fa fa-cloud-upload"></i>   Diseños de {{ enterprise.enterprise_name }}</h3>
+                    </div>
+                    {% if form.errors %}
+                        <div class="alert alert-danger">{{ form.errors }}</div>
+                    {% endif %}
+                    <form method="POST" 
+                        action="{% url 'designs' enterprise.enterprise_url %}"
+                        enctype="multipart/form-data">
+                        <div class="box-body">
+                            {% csrf_token %}
+                            {% if not user.is_authenticated or user.is_staff %}
+                                <div class="form-group">
+                                    <label>Tu nombre</label> 
+                                    {{ form.designer_name }}   
+                                </div>
+                                <div class="form-group">
+                                    <label>Tu Apellido</label>  
+                                    {{ form.designer_lastname }}  
+                                </div>
+                                <div class="form-group">
+                                    <label>Tu email</label>  
+                                    {{ form.designer_email }}  
+                                </div>
+                            {% endif %}
+                            <div class="form-group">
+                                <label>Elige un proyecto</label> 
+                                {{ form.design_project }}   
+                            </div>
+                            <div class="form-group">
+                                <label>Nombre del diseño</label>    
+                                {{ form.design_name }}
+                            </div>
+                            <div class="form-group">
+                                <label>Valor solicitado</label>    
+                                {{ form.design_value  }}
+                            </div>
+                            <div class="form-group">
+                                <label>Imagen</label>    
+                                <br />
+                                    Buscar imagen en equipo...
+                                <br />
+                                {{ form.design_image }}
+                                <br />
+                                <p class="help-block">
+                                    El diseño puede estar en los formatos png, bmp, jpg y/o jpeg, y debe ser
+                                    de mínimo 800x600 pixeles.</p>
+                            </div>    
+                        </div>
+                        <div class="box-footer clearfix">
+                            <div class="form-group">
+                                <button type="submit" 
+                                    class="btn btn-primary login-btn pull-right">
+                                    <i class="fa fa-rocket"></i> 
+                                    Subir Diseño
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Fin Fila 2-->
+    </section>
+
+    <!-- Modals -->
+    <div class="modal fade" id="modal-success">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Diseño cargado con éxito</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Hemos recibido tu diseño y lo estamos procesando para que sea publicado. 
+                        Tan pronto esto ocurra, te notificaremos por email.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if messages %}
+<ul class="messages">
+  {% for message in messages %}
+  <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+  {% endfor %}
+</ul>
+{% endif %}
+    <script type="text/javascript">
+        {% if messages %}
+        $(window).on('load',function(){
+            $('#modal-success').modal('show');
+        });
+        {% endif %}
+    </script>
+{% endblock %}

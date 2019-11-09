@@ -1,0 +1,139 @@
+{% extends "users/base.html" %}
+
+{% block head_content %}
+<title>Proyecto 1 - Registrarse</title>
+{% endblock%}
+
+{% block container %}
+    <div class="login-box">
+        <div class="login-logo">
+            <a><b>Proyecto</b>1</a>
+        </div>
+
+        <div class="login-box-body">
+            <p class="login-box-msg">Registro para empresa y diseñadores</p>
+
+            {% if form.errors %}
+                <div class="alert alert-danger">{{ form.errors }}</div>
+            {% endif %}
+
+            <form method="POST" action="{% url 'users:signup' %}">
+
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <div class="input-group"> 
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-asterisk"></i>
+                        </span>
+                        <input type="text" 
+                            class="form-control" 
+                            name="username" 
+                            placeholder="Empresa / Diseñador" 
+                            value="{% if form.errors %}{{ form.username.value }}{% endif %}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group"> 
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-user"></i>
+                        </span>
+                        <input type="text" 
+                            class="form-control" 
+                            name="first_name" 
+                            placeholder="Nombre" 
+                            value="{% if form.errors %}{{ form.first_name.value }}{% endif %}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group"> 
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-collapse-up"></i>
+                        </span>
+                        <input type="text" 
+                            class="form-control" 
+                            name="last_name" 
+                            placeholder="Apellido" 
+                            value="{% if form.errors %}{{ form.last_name.value }}{% endif %}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group col-xs-offset-1">
+                        <input type="checkbox"
+                            name='is_enterprise' 
+                            class="flat-red">
+                            ¿Crear cuenta para una empresa?
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group"> 
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-envelope"></i>
+                        </span>
+                        <input type="text" 
+                            class="form-control" 
+                            name="email" 
+                            placeholder="Correo electrónico" 
+                            value="{% if form.errors %}{{ form.email.value }}{% endif %}">
+                    </div>
+                </div>
+    
+                <div class="form-group">
+                    <div class="input-group"> 
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-lock"></i>
+                        </span>
+                        <input type="password" 
+                            class="form-control" 
+                            name="password" 
+                            placeholder="Contraseña" >
+                    </div>
+                </div>
+    
+                <div class="form-group">
+                    <div class="input-group"> 
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-collapse-up"></i>
+                        </span>
+                        <input type="password" 
+                            class="form-control" 
+                            name="password_confirmation" 
+                            placeholder="Confirmar Contraseña" >
+                    </div>
+                </div>
+                                
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary login-btn btn-block">
+                        <i class="fa fa-rocket"></i>   
+                        Crear cuenta!
+                    </button>
+                </div>
+    
+                <div class="or-seperator"></div>
+
+                <div class="form-group">
+                    <a href="{% url 'users:login' %}" class="col-xs-12 btn btn-success" data-toggle="modal">
+                        <i class="glyphicon glyphicon-share-alt"></i> 
+                        <span><b>Volver a Iniciar sesión</b></span>
+                    </a>
+                </div>
+
+                <br />
+                <br />
+
+            </form>
+        </div>
+    </div>
+    <script>
+        $(function() {
+            $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+                checkboxClass: 'icheckbox_flat-green',
+                radioClass   : 'iradio_flat-green'
+            })
+        })
+    </script>
+{% endblock %}

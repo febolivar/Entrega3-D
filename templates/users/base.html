@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+
+        <!-- Configuraciones Generales -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        {% block head_content %}{% endblock %}
+
+        <!-- Estáticos -->
+        {% load staticfiles %}  
+        {% load static %}
+
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"> 
+        <link rel="stylesheet" href="{% static 'css/AdminLTE.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/all.css' %}">
+
+        <link rel="stylesheet" href="{% static 'css/font-awesome.min.css'  %}">
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+        <script src="{% static 'js/jquery1.12.4.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/icheck.min.js' %}"></script>
+        
+    </head>
+    <body class="hold-transition login-page">
+
+        {% block container %}{% endblock %}
+
+    </body>
+</html>

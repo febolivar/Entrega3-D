@@ -1,0 +1,51 @@
+{% extends "designs/base.html" %}
+{% load static %}
+
+{% block head_content %}
+    <title> Design. {{ request.user.username }} projects </title>
+{% endblock %}
+
+{% block container %}
+    <div class="row">
+        <div class="col-md-8 col-sm-offset-2">
+            <div class="box box-widget">
+                <div class="box-header with-border">
+                    <div class="user-block">
+                        <img src="{% static 'img/default-profile.png' %}" class="user-image" alt="usuario">
+                        <span class="username"><a href="#">{{ view.creator }}</a></span>
+                        <span class="description">{{ view.name }}</span>
+                    </div>
+                    <!-- /.user-block -->
+                    <div class="box-tools">
+                        <p>
+                            <span class="label label-primary">{{ view.project }}</span>
+                            <span class="label label-success">{{ view.create_date }}</span>
+                            <span class="label label-info">{{ view.requested_price }}</span>
+                            <span class="label label-warning">{{ view.state }}</span>
+                        </p>
+                    </div>
+                    <!-- /.box-tools -->
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <span class="pull-left text-muted">Original</span>
+                    <img class="img-responsive pad" src="{{ view.image_original }}" alt="Original"/>
+                    {% if view.image_processed != "" %}
+                        <br>
+                        <span class="pull-left text-muted">Procesada</span>
+                        <img class="img-responsive pad" src="{{ view.image_processed }}" alt="Procesada"/>
+                    {% endif %}
+                    <p>{{ view.project_description }}</p>
+                    <button type="button" class="btn btn-default btn-xs"><i class="fa fa-share"></i> Share</button>
+                    <button type="button" class="btn btn-default btn-xs"><i class="fa fa-thumbs-o-up"></i> Like</button>
+                    <span class="pull-right text-muted">127 likes - 3 comments</span>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+
+{% endblock %}
+

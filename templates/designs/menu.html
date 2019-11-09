@@ -1,0 +1,44 @@
+{% load static %}
+
+<aside class="main-sidebar">
+    <section class="sidebar">
+        <ul class="sidebar-menu" data-widget="tree">
+            <li class="header">Navegación Principal</li>
+            {% if user.is_staff %}
+                <li>
+                    <a href="{% url 'enterprise:admin_home' %}">
+                        <i class="fa fa-home"></i> <span>Home de la empresa</span>
+                    </a>        
+                </li>
+                <li>
+                    <a href="{% url 'enterprise:my_projects' %}">
+                        <i class="fa fa-diamond"></i> <span>Ver proyectos</span>
+                    </a>        
+                </li>
+                <li>
+                    <a href="{% url 'enterprise:manage_projects' %}">
+                        <i class="fa fa-filter"></i> <span>Configurar proyectos</span>
+                    </a>        
+                </li>    
+                <li>
+                    <a href="{% url 'enterprise:manage_account' %}">
+                        <i class="fa fa-cogs"></i> <span>Configurar cuenta</span>
+                    </a>        
+                </li>
+                    
+            {% else %}
+                <li>
+                    <a href="{% url 'enterprise:designer_dashboard' %}">
+                        <i class="fa fa-home"></i> <span>Home del diseñador</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'enterprise:load_upload' %}">
+                        <i class="fa fa-upload"></i> <span>Subir diseño</span>
+                    </a>
+                </li>
+            {% endif %}
+            
+        </ul>
+    </section>
+</aside>

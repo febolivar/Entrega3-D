@@ -1,0 +1,74 @@
+{% extends "designs/base.html" %}
+
+{% block head_content %}
+<title> Home {{ request.user.username }}</title>
+{% endblock %}
+
+{% block container %}
+    <h1>Home de la empresa {{ request.user.username }}
+        <small>panel de control</small>
+    </h1>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-compass"></i> Datos de la empresa </h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="alert alert-info alert-dismissible">
+                            <h4><i class="icon fa fa-info"></i> La para acceder a la vista pública de la empresa es:</h4>
+                            {{ enterprise.enterprise_url }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-paint-brush"></i> Diseños de la empresa</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="table-wrapper">
+                            
+                            <table class="table table-striped table-hover table-bordered">
+                                
+                                {% for instance in object_list %}
+                                    {% if title != instance.1 %}
+                                        <tr>
+                                            <th class="text-center" style="font-size: 40px;">{{instance.1}}</th> 
+                                        </tr>
+                                    {% endif %}
+                                    {% firstof instance.1 as title %}
+                                    <tr>
+                                        
+                                        <td align="center">
+                                            <img src="/enterprise_design_img/{{instance.0.id}}" height="600" width="800"></img>
+                                        </td>
+                                    </tr>
+                                {% endfor %} 
+                                <tr>
+                                    <td colspan="7">
+                                        <div class="col-sm-6 text-right">
+                                        {% if page_obj.has_previous %}
+                                            <a href="?page={{page_obj.previous_page_number}}" class="btn btn-info">Previous</a>
+                                        {% endif %}
+                                        </div>
+                                        {% if page_obj.has_next %}
+                                            <a href="?page={{page_obj.next_page_number}}" class="btn btn-info">Next</a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+    
+{% endblock %}

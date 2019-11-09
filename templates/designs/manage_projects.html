@@ -1,0 +1,262 @@
+{% extends "designs/base.html" %}
+
+{% block head_content %}
+<title> Admin. {{ request.user.username }} projects </title>
+{% endblock %}
+
+{% block container %}
+    <h1>Administrar proyectos</h1>
+    <section class="content">
+        <!-- ROW 1: Project's List-->
+        <div class="row">
+            {% if form.errors %}
+                <div class="alert alert-danger">{{ form.errors }}</div>
+            {% endif %}
+            <div class="col-xs-12">
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class= "box-title"><i class="fa fa-paper-plane"></i>   Lista de Proyectos</h3>
+                    </div>
+                    <div class="box-body">
+                        
+                        <button type="button" 
+                            class="btn btn-success fa-pull-right" 
+                            data-toggle="modal" 
+                            data-target="#modal-create"
+                            onclick="cleanFields()">
+                            <i class="fa fa-plus"></i>
+                               Crear Proyecto
+                        </button>
+                        <br />
+                        <br />
+                        <div class="table-wrapper">
+                            <table class="table table-striped table-hover table-bordered">
+                                <thead>
+                                    <tr>
+                                        <td align="center"> <b> Nombre </b> </td>
+                                        <td align="center"> <b> Descripción del proyecto</b> </td>
+                                        <td align="center"> <b> Valor a pagar </b> </td>
+                                        <td align="center"> <b> Acciones </b> </td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <!-- INICIO: Tablas -->
+                                    {% for project in projects %}
+                                    <tr>
+                                        <td align="center"> {{ project.project_name }} </td>
+                                        <td align="center"> {{ project.project_description }} </td>
+                                        <td align="center"> {{ project.project_payment_value }} </td>
+                                        <td align="center">
+                                            <button type="button" 
+                                                class="btn btn-warning" 
+                                                data-toggle="modal" 
+                                                data-target="#modal-warning"
+                                                onclick="populateEditModal({{ project.pk }}, '{{ project.project_name }}' , '{{ project.project_description }}' , '{{ project.project_payment_value }}' )"
+                                                title="Editar proyecto">
+                                                <i class="fa fa-magic"></i>
+                                            </button> 
+                                            <button type="button" 
+                                                class="btn btn-danger" 
+                                                data-toggle="modal" 
+                                                data-target="#modal-delete"
+                                                title="Borrar proyecto"
+                                                onclick="populateDeleteModal({{ project.pk }} , '{{ project.project_name }}' )">
+                                                <i class="fa fa-eraser"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    <!-- FIN: Tablas -->
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MODALS -->
+
+    <!-- CREATION'S MODAL -->
+
+    <div class="modal fade" id="modal-create">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" 
+                        class="close" 
+                        data-dismiss="modal" 
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Crear Proyecto</h4>
+                </div>
+                <form method="POST" action="{% url 'enterprise:manage_projects' %}">
+                    {% csrf_token %}
+
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Nombre del Proyecto </label>
+                            {{ form.project_name }}
+                        </div>
+                        <div class="form-group">
+                            <label>Descripción del Proyecto </label>
+                            {{ form.project_description }}
+                        </div>
+                        <div class="form-group">
+                            <label>Valor a pagar </label>
+                            {{ form.project_payment_value }}
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" 
+                            class="btn btn-default pull-left" 
+                            data-dismiss="modal">
+                            Cancelar
+                        </button>
+                        <button name="create-button"
+                            type="submit" 
+                            class="btn btn-primary">
+                            Crear Proyecto
+                        </button>
+                    </div>
+                </form>
+            </div> 
+        </div>
+    </div>
+
+    <!-- END CREATION'S MODAL -->
+
+    <!-- EDIT'S MODAL -->
+    <div class="modal fade" id="modal-warning">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" 
+                        class="close" 
+                        data-dismiss="modal" 
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Editar Proyecto</h4>
+                </div>
+                <form method="POST" action="{% url 'enterprise:manage_projects' %}">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Código único del Proyecto</label>
+                            {{ form.project_pk }}
+                        </div>
+                        <div class="form-group">
+                            <label>Nombre del Proyecto </label>
+                            {{ form.project_name }}
+                        </div>
+                        <div class="form-group">
+                            <label>Descripción del Proyecto </label>
+                            {{ form.project_description }}
+                        </div>
+                        <div class="form-group">
+                            <label>Valor a pagar </label>
+                            {{ form.project_payment_value }}
+                        </div>
+                    </div>
+    
+                    <div class="modal-footer">
+                        <button type="button" 
+                            class="btn btn-default pull-left" 
+                            data-dismiss="modal">
+                            Cancelar
+                        </button>
+    
+                        <button name="edit-button" 
+                            type="submit" 
+                            class="btn btn-primary">
+                            Guardar Cambios
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- END EDIT'S MODAL -->
+
+    <!-- DELETE'S MODAL-->
+
+    <div class="modal fade" id="modal-delete">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" 
+                        class="close" 
+                        data-dismiss="modal" 
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Borrar proyecto</h4>
+                </div>
+                <form method="POST" action="{% url 'enterprise:manage_projects' %}">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <h3>¿Deseas borrar este proyecto?</h3>
+                        <br />
+                        <br />
+                        <h4 align="center" id='project-name-delete'></h4>
+                        <br />
+                        <div class="form-group">
+                            <label>Código único del Proyecto</label>
+                            <input id='project-pk-delete' 
+                                name="pk"
+                                type="text"
+                                class="form-control"
+                                required
+                                readonly>
+                        </div>
+                        <p class="text-warning"><small>Esta acción no se puede deshacer.</small></p>
+                    </div>
+        
+                    <div class="modal-footer">
+                        <button type="button" 
+                            class="btn btn-default pull-left" 
+                            data-dismiss="modal">
+                            Cancelar
+                        </button>
+                        <button type="submit"
+                            name="delete-button" 
+                            class="btn btn-primary">
+                            Eliminar Proyecto
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- END DELETE'S MODAL -->
+
+    <!-- END MODALS -->
+    <script>
+        function populateDeleteModal(pk,name){
+            document.getElementById("project-pk-delete").value = pk
+            document.getElementById("project-name-delete").innerHTML  = name
+        }
+
+        function populateEditModal(pk, name, description, payment){
+            $("input[name=project_pk]").val(pk)
+            $("input[name=project_name]").val(name)
+            $("textarea[name=project_description]").val(description)
+            $("input[name=project_payment_value]").val(payment)
+        }
+
+        function cleanFields(){
+            $("input[name=project_name]").val('')
+            $("textarea[name=project_description]").val('')
+            $("input[name=project_payment_value]").val('')
+        }
+    </script>
+{% endblock %}

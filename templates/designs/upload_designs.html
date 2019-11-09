@@ -1,0 +1,65 @@
+{% extends "designs/base.html" %}
+{% load static %}
+
+{% block head_content %}
+    <title> Upload design by {{ request.user.username }}</title>
+{% endblock %}
+
+{% block container %}
+    <div class="col-md-6 col-sm-offset-3">
+        <!-- general form elements -->
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">Subir diseño</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form method="post" id="upload_design" action="{% url 'enterprise:upload_design' %}"
+                  enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="box-body">
+                    {% if form.errors %}
+                        <div class="alert alert-danger">{{ form.errors }}</div>
+                    {% endif %}
+                    <div class="form-group">
+                        <label for="image">Diseño</label>
+                        <input id="image" name="image" type="text" class="form-control input-md"
+                               placeholder="Nombre del diseño ..." required/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="requested_price">Precio Solicitado</label>
+                        <input id="requested_price" name="requested_price" type="text" class="form-control input-md"
+                               placeholder="Valor en moneda local ..." required/>
+                    </div>
+                    <div class="form-group">
+                        <label>Proyecto</label>
+                        <select class="form-control" id="project" name="project" required>
+                            {% if view %}
+                                <option value="">Seleccione...</option>
+                                {% for element in view %}
+                                    <option value="{{ element.pk }}">{{ element.project_name }}</option>
+                                {% endfor %}
+                            {% else %}
+                                <option value="">La empresa no tiene proyectos asignados</option>
+                            {% endif %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="imageupload">Ruta imagen</label>
+                        <input type="file" id="image_original" name="image_original" required>
+                        <p class="help-block">El diseño puede estar en los formatos png, bmp, jpg y/o jpeg, y debe ser
+                            de mínimo 800x600 pixeles.</p>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+
+                <div class="box-footer">
+                    <input type="submit" value="Enviar" class="btn btn-primary"/>
+                    <a href="../detalle">Cancelar</a>
+                </div>
+            </form>
+        </div>
+        <!-- /.box -->
+    </div>
+{% endblock %}

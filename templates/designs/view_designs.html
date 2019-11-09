@@ -1,0 +1,107 @@
+{% extends "designs/base.html" %}
+
+{% block head_content %}
+<title> Projects {{ request.user.username }}</title>
+{% endblock %}
+
+{% block container %}
+    <h1>Diseños</h1>
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class= "box-title">
+                            <i class="fa fa-paint-brush"></i>   Diseños
+                        </h3>
+                    </div>
+
+                    <div class="box-body">
+                        <div class="table-wrapper">
+                            <table class="table table-striped table-hover table-bordered" 
+                                style="overflow-x: auto;display: inline-block;float: none;">
+                                <thead>
+                                    <tr>
+                                        <td align="center"> <b> Nombre </b> </td>
+                                        <td align="center"> <b> Email</b> </td>
+                                        <td align="center"> <b> Nombres </b> </td>
+                                        <td align="center"> <b> Apellidos </b> </td>
+                                        <td align="center"> <b> Precio </b> </td>
+                                        <td align="center"> <b> Fecha de publicación </b> </td>
+                                        <td align="center"> <b> Estado </b> </td>
+                                        <td align="center"> <b> Descargar original </b> </td>
+                                        <td align="center"> <b> Descargar procesado </b> </td>
+                                        <td align="center"> <b> Ver Diseño </b></td>
+                                    </tr>
+                                </thead>
+                                <tbody>                                
+                                    {% for instance in object_list %}
+                                        <tr>
+                                            <td align="center">{{instance.design_name}}</td>
+                                            <td>{{instance.design_creator.email}}</td>
+                                            <td align="center">{{instance.design_creator.first_name}}</td>
+                                            <td align="center">{{instance.design_creator.last_name}}</td>
+                                            <td align="right">{{instance.design_requested_price}}</td>
+                                            <td>{{instance.design_create_date}}</td>
+                                            <td align="center">{{instance.design_state.state_description}}</td>
+                                            <td align="center">    
+                                                <a href="/download_original_design/original/{{instance.id}}" 
+                                                    class="btn btn-info">
+                                                    <i class="fa fa-cloud-download"></i>
+                                                </a>
+                                            </td>
+                                            <td align="center">
+                                                {% if instance.design_state.id == 2 %}
+                                                    <a href="/download_original_design/proccessed/{{instance.id}}" 
+                                                        class="btn btn-warning">
+                                                        <i class="fa fa-check"></i>
+                                                    </a>
+                                                {% else %}
+                                                    <a href="" 
+                                                        class="btn btn-warning"
+                                                        disabled>
+                                                        <i class="fa fa-check"></i>
+                                                    </a>
+                                                {% endif %}
+                                            </td>
+                                            <td align="center">
+                                                {% if instance.design_state.id == 2 %}
+                                                    <a href="/enterprise/design/{{ instance.id }}"
+                                                        class="btn btn-success">
+                                                        <i class="fa fa-image"></i>
+                                                    </a>
+                                                {% else %}
+                                                    <a href="" 
+                                                        class="btn btn-success"
+                                                        disabled>
+                                                        <i class="fa fa-image"></i>
+                                                    </a>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    <tr>
+                                        <td colspan="10">
+                                            <div class="col-sm-6 text-right">
+                                            {% if page_obj.has_previous %}
+                                                <a href="?page={{page_obj.previous_page_number}}" class="btn btn-danger">
+                                                    <i class="fa fa-backward"></i>  Anterior
+                                                </a>
+                                            {% endif %}
+                                            </div>
+                                            {% if page_obj.has_next %}
+                                                <a href="?page={{page_obj.next_page_number}}" class="btn btn-success">
+                                                    Siguiente <i class="fa fa-forward"></i>
+                                                </a>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

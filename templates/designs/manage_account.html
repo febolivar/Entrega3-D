@@ -1,0 +1,52 @@
+{% extends "designs/base.html" %}
+
+{% block head_content %}
+<title> Admin. {{ request.user.username }} account </title>
+{% endblock %}
+
+{% block container %}
+    <h1>Administrar cuenta</h1>
+    <section class="content">
+        <div class="row">
+            {% if form.errors %}
+                <div class="alert alert-danger">{{ form.errors }}</div>
+            {% endif %}
+            <div class="col-xs-offset-3 col-xs-6">
+                <div class="box box-danger">
+                    <div class="box-header with-border">
+                        <h3 class= "box-title"><i class="fa fa-compass"></i>   Datos de la empresa {{ request.user.username }}</h3>
+                    </div>
+                    <form method="POST" action="{% url 'enterprise:manage_account' %}">
+                        <div class="box-body">
+                            
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label>Nombre:</label>
+                                {{ form.enterprise_name }}
+                            </div>
+                            <div class="form-group">
+                                <label>Email:</label>
+                                {{ form.enterprise_email }}
+                            </div>
+                            <div class="form-group">
+                                <label>URL:</label>
+                                {{ form.enterprise_url }}
+                            </div>
+                                                        
+                        </div>
+                        <div class="box-footer clearfix">
+                            <div class="form-group">
+                                <button type="submit" 
+                                    class="btn btn-primary login-btn pull-right">
+                                    <i class="fa fa-rocket"></i> 
+                                    Cambiar información
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+{% endblock %}
