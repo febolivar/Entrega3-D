@@ -1,0 +1,1 @@
+worker: python /media/process_designs_mongo.py

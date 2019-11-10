@@ -1,6 +1,7 @@
 """ Batch database connection module from mongo """
 
 # Mongo Database Imports
+import os
 
 import pymongo
 from pymongo import MongoClient
@@ -12,17 +13,21 @@ from datetime import datetime
 
 # Global variables
 
-HOST = '18.210.47.72'
-PORT = 27017
-DB_NAME = 'proyecto1'
-CLIENT = MongoClient( host = HOST)
+HOST = os.environ['BD_HOST']
+PORT = os.environ['BD_PORT']
+DB_NAME = os.environ['BD_NAME']
+CLIENT = MongoClient(host=HOST)
+
+AWS_QUEUE_URL = os.environ['AWS_QUEUE_URL']
+AWS_QUEUE_KEY = os.environ['AWS_QUEUE_KEY']
+AWS_QUEUE_ACCESS = os.environ['AWS_QUEUE_ACCESS']
 
 # SQS queue configuration
 APP_AWS_QUEUE = {
   'region_name': 'us-east-1',
-  'aws_access_key_id': 'AKIAWMDWJXRQEMTXLLHF',
-  'aws_secret_access_key': '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',
-  'sqs_queue_url': 'https://sqs.us-east-1.amazonaws.com/438334766176/queuse_design_std'
+  'aws_access_key_id': '' + AWS_QUEUE_KEY + '',
+  'aws_secret_access_key': '' + AWS_QUEUE_ACCESS + '',
+  'sqs_queue_url': '' + AWS_QUEUE_URL + ''
 }
 
 # Methods

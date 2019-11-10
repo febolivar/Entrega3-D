@@ -15,7 +15,7 @@ from __future__ import print_function
 # Util and OS
 
 import os, sys
-sys.path.append('/usr/local/lib64/python3.6/site-packages/')
+# sys.path.append('/usr/local/lib64/python3.6/site-packages/')
 from pathlib import Path
 
 # Datetime and start loggin
@@ -57,7 +57,7 @@ SIZE = (800, 600)
 SIZING_METHOD = 'T'
 EMAIL_PASSWORD = 'MODIFICADO' 
 
-WA_URL = 'http://webserver-lb-1116136664.us-east-1.elb.amazonaws.com:8000/'
+WA_URL = os.environ['WA_URL']
 
 
 BASE_DIR = Path()
@@ -73,7 +73,7 @@ def processing(test = False):
     # Database Connection and get image to process from queue
 
     designs_to_process = query_in_process()
-    #print(designs_to_process)
+    # print(designs_to_process)
 
     data = {}
 
