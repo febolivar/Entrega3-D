@@ -1,1 +1,1 @@
-worker: python /media/process_designs_mongo.py
+worker: python /app/media/process_designs_mongo.py
