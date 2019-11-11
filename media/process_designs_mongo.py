@@ -98,23 +98,27 @@ def processing(test = False):
             print("{} \t Inicia lectura de imagen en S3"
                 .format(datetime.now()))
 
+            print('a')
+            print(os.getenv('AWS_ACCESS_KEY_ID'))
+            print(os.getenv('AWS_SECRET_ACCESS_KEY'))
             s3_session = boto3.Session(
                 aws_access_key_id = os.getenv('AWS_ACCESS_KEY_ID'),
                 aws_secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY'),
             )
 
+            print('b')
             s3_manager = s3_session.resource('s3')
-
+            print('c')
             s3_bucket = s3_manager.Bucket(os.getenv('AWS_STORAGE_BUCKET_NAME'))
-
+            print('d')
             name_simple = data['image'].replace('originals/','')
-
+            print('e')
             s3_bucket.download_file( data['image'], name_simple )
             im = Image.open( BASE_DIR / name_simple )
-
+            print('f')
             default_width = SIZE[0]
             default_height = SIZE[1]
-
+            print('g')
             try:
                 # PASO 1: Cambia de tamaño la imagen
 
