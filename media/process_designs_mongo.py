@@ -121,57 +121,63 @@ def processing(test = False):
             print('g')
             try:
                 # PASO 1: Cambia de tamaño la imagen
-
+                print('h')
                 if SIZING_METHOD == 'T':
                     im.thumbnail(SIZE, Image.ANTIALIAS)
                 else:
                     im = im.resize(SIZE, Image.ANTIALIAS)
 
                 # PASO 2: Dibuja la marca de la imagen procesadas
-
+                print('i')
                 draw = ImageDraw.Draw(im)
-
+                print('j')
                 font = ImageFont.truetype(FONT_SELECTION, FONT_SIZE)
-
+                print('k')
                 width, height = im.size
-
+                print('l')
                 if height < default_height:
                     default_height = height
-
+                print('m')
                 if width < default_width and height == default_height:
                     default_width = width
-
+                print('n')
                 draw.rectangle(
                     [0, default_height - 30, default_width, default_height],
                     fill=RECTANGLE_COLOR
                 )
-
+                print('o')
                 draw.text(
                     (10, default_height - 30),
                     ("{} - {} ".format(data['creator'],data['date'])),
                     FONT_COLOR,
                     font=font
                 )
-
+                print('p')
                 # PASO 3: Almacena la imagen generada en formato PNG
-
+                print('q')
                 name_file = data['image'].replace('originals/','')
+                print('r')
                 name_file = 'processed_' + name_file[:name_file.index('.')]
+                print('s')
                 name_file =  name_file + '.png'
+                print('t')
                 output = BASE_DIR / name_file
+                print('u')
                 im.save(output)
+                print('v')
                 output_file = 'processed/' + name_file
-
+                print('w')
                 upload_file_s3(name_file, s3_bucket)
                 # PASO 4: Cambia el estado de la imagen procesada en la base de datos
-
+                print('x')
                 update_processed_files(
                     data['image_pk'],
                     data['design_pk'],
                     output_file)
-
+                print('y')
                 # PASO 5: Envía el email de la imagen procesada
                 if not test:
+                    print('z')
                     send_email(
                         EMAIL_PASSWORD,
                         data['email'],
