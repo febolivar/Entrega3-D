@@ -61,6 +61,8 @@ WA_URL = os.environ['WA_URL']
 
 
 BASE_DIR = Path()
+print('Basedir:')
+print(BASE_DIR)
 
 DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 FONT_SELECTION = "font/arial.ttf"
@@ -80,49 +82,50 @@ def processing(test = False):
     if designs_to_process is not None:
 
         for design in designs_to_process:
-            print("-"*110)
-            print("{} \t Inicia procesamiento de la imagen {} -> {}"
-                .format(datetime.now(),
-                    design['image_id'],
-                    design['id'])
+            try:
+                print("-"*110)
+                print("{} \t Inicia procesamiento de la imagen {} -> {}"
+                    .format(datetime.now(),
+                        design['image_id'],
+                        design['id'])
+                    )
+
+                data['creator'] = design['first_name']
+                data['email'] = design['email']
+                data['date'] = design['design_create_date'].strftime(DATE_FORMAT)
+                data['image'] = design['image_original']
+                data['image_pk'] = design['image_id']
+                data['design_pk'] = design['id']
+                data['url'] =  WA_URL + design['url']
+
+                print("{} \t Inicia lectura de imagen en S3"
+                    .format(datetime.now()))
+
+                print('a')
+                print(os.getenv('AWS_ACCESS_KEY_ID'))
+                print(os.getenv('AWS_SECRET_ACCESS_KEY'))
+                s3_session = boto3.Session(
+                    aws_access_key_id = os.getenv('AWS_ACCESS_KEY_ID'),
+                    aws_secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY'),
                 )
 
-            data['creator'] = design['first_name']
-            data['email'] = design['email']
-            data['date'] = design['design_create_date'].strftime(DATE_FORMAT)
-            data['image'] = design['image_original']
-            data['image_pk'] = design['image_id']
-            data['design_pk'] = design['id']
-            data['url'] =  WA_URL + design['url']
-
-            print("{} \t Inicia lectura de imagen en S3"
-                .format(datetime.now()))
-
-            print('a')
-            print(os.getenv('AWS_ACCESS_KEY_ID'))
-            print(os.getenv('AWS_SECRET_ACCESS_KEY'))
-            s3_session = boto3.Session(
-                aws_access_key_id = os.getenv('AWS_ACCESS_KEY_ID'),
-                aws_secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY'),
-            )
-
-            print('b')
-            s3_manager = s3_session.resource('s3')
-            print('c')
-            s3_bucket = s3_manager.Bucket(os.getenv('AWS_STORAGE_BUCKET_NAME'))
-            print(os.getenv('AWS_STORAGE_BUCKET_NAME'))
-            print('s3 bucket:')
-            print(s3_bucket)
-            print('d')
-            name_simple = data['image'].replace('originals/','')
-            print('e')
-            s3_bucket.download_file( data['image'], name_simple )
-            im = Image.open( BASE_DIR / name_simple )
-            print('f')
-            default_width = SIZE[0]
-            default_height = SIZE[1]
-            print('g')
-            try:
+                print('b')
+                s3_manager = s3_session.resource('s3')
+                print('c')
+                s3_bucket = s3_manager.Bucket(os.getenv('AWS_STORAGE_BUCKET_NAME'))
+                print(os.getenv('AWS_STORAGE_BUCKET_NAME'))
+                print('s3 bucket:')
+                print(s3_bucket)
+                print('d')
+                name_simple = data['image'].replace('originals/','')
+                print('e')
+                s3_bucket.download_file( data['image'], name_simple )
+                im = Image.open( BASE_DIR / name_simple )
+                print('f')
+                default_width = SIZE[0]
+                default_height = SIZE[1]
+                print('g')
+            # try:
                 # PASO 1: Cambia de tamaño la imagen
                 print('h')
                 if SIZING_METHOD == 'T':
