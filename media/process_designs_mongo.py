@@ -55,7 +55,7 @@ from botocore.exceptions import ClientError
 # Global varaibles
 SIZE = (800, 600)
 SIZING_METHOD = 'T'
-EMAIL_PASSWORD = 'MODIFICADO' 
+EMAIL_PASSWORD = os.getenv('AWS_EMAIL_PASS')
 
 WA_URL = os.environ['WA_URL']
 

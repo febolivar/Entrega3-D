@@ -2,7 +2,7 @@
 """
 
 # Email server and email mimes
-
+import os
 import smtplib, ssl
 
 from email.mime.text import MIMEText
@@ -12,10 +12,9 @@ from datetime import datetime
 
 # Global variables
 
-#PORT = 587 
 PORT = 465
-SERVICE = "MODIFICADO"
-PROJECT_EMAIL = "MODIFICADO"
+SERVICE = os.getenv('AWS_EMAIL_SERVICE')
+PROJECT_EMAIL = os.getenv('AWS_EMAIL_EMAIL')
 SUBJECT = "Diseño [%s] disponible"
 
 def send_email(password, send_to, name, design_name, enterprise_url = ''):
