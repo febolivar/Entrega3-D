@@ -61,8 +61,6 @@ WA_URL = os.environ['WA_URL']
 
 
 BASE_DIR = Path()
-print('Basedir:')
-print(BASE_DIR)
 
 DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 FONT_SELECTION = "/app/media/font/arial.ttf"  # FONT_SELECTION = "font/arial.ttf"
@@ -75,7 +73,6 @@ def processing(test = False):
     # Database Connection and get image to process from queue
 
     designs_to_process = query_in_process()
-    # print(designs_to_process)
 
     data = {}
 
@@ -101,7 +98,7 @@ def processing(test = False):
                 print("{} \t Inicia lectura de imagen en S3"
                     .format(datetime.now()))
 
-                print('a')
+
                 print(os.getenv('AWS_ACCESS_KEY_ID'))
                 print(os.getenv('AWS_SECRET_ACCESS_KEY'))
                 s3_session = boto3.Session(
@@ -109,81 +106,80 @@ def processing(test = False):
                     aws_secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY'),
                 )
 
-                print('b')
+
                 s3_manager = s3_session.resource('s3')
-                print('c')
+
                 s3_bucket = s3_manager.Bucket(os.getenv('AWS_STORAGE_BUCKET_NAME'))
                 print(os.getenv('AWS_STORAGE_BUCKET_NAME'))
-                print('s3 bucket:')
-                print(s3_bucket)
-                print('d')
+
                 name_simple = data['image'].replace('originals/','')
-                print('e')
+
                 s3_bucket.download_file( data['image'], name_simple )
                 im = Image.open( BASE_DIR / name_simple )
-                print('f')
+
                 default_width = SIZE[0]
                 default_height = SIZE[1]
-                print('g')
+
             # try:
                 # PASO 1: Cambia de tamaño la imagen
-                print('h')
+
                 if SIZING_METHOD == 'T':
                     im.thumbnail(SIZE, Image.ANTIALIAS)
                 else:
                     im = im.resize(SIZE, Image.ANTIALIAS)
 
                 # PASO 2: Dibuja la marca de la imagen procesadas
-                print('i')
+
                 draw = ImageDraw.Draw(im)
-                print('j')
+
                 font = ImageFont.truetype(FONT_SELECTION, FONT_SIZE)
-                print('k')
+
                 width, height = im.size
-                print('l')
+
                 if height < default_height:
                     default_height = height
-                print('m')
+
                 if width < default_width and height == default_height:
                     default_width = width
-                print('n')
+
                 draw.rectangle(
                     [0, default_height - 30, default_width, default_height],
                     fill=RECTANGLE_COLOR
                 )
-                print('o')
+
                 draw.text(
                     (10, default_height - 30),
                     ("{} - {} ".format(data['creator'],data['date'])),
                     FONT_COLOR,
                     font=font
                 )
-                print('p')
+
                 # PASO 3: Almacena la imagen generada en formato PNG
-                print('q')
+
                 name_file = data['image'].replace('originals/','')
-                print('r')
+
                 name_file = 'processed_' + name_file[:name_file.index('.')]
-                print('s')
+
                 name_file =  name_file + '.png'
-                print('t')
+
                 output = BASE_DIR / name_file
-                print('u')
+
                 im.save(output)
-                print('v')
+
                 output_file = 'processed/' + name_file
-                print('w')
+
                 upload_file_s3(name_file, s3_bucket)
                 # PASO 4: Cambia el estado de la imagen procesada en la base de datos
-                print('x')
+
                 update_processed_files(
                     data['image_pk'],
                     data['design_pk'],
                     output_file)
-                print('y')
+
                 # PASO 5: Envía el email de la imagen procesada
                 if not test:
-                    print('z')
+                    print('Enviar email a: ')
+                    print(data['email'])
                     send_email(
                         EMAIL_PASSWORD,
                         data['email'],
