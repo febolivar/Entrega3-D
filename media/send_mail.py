@@ -66,4 +66,4 @@ def send_email(password, send_to, name, design_name, enterprise_url = ''):
 
         server.sendmail(send_to, send_to, message.as_string())
 
-        print("{} \t Notificación vía correo electrónico enviada".format(datetime.now()))
+        # print("{} \t Notificación vía correo electrónico enviada".format(datetime.now()))

@@ -81,11 +81,13 @@ def processing(test = False):
         for design in designs_to_process:
             try:
                 print("-"*110)
-                print("{} \t Inicia procesamiento de la imagen {} -> {}"
-                    .format(datetime.now(),
-                        design['image_id'],
-                        design['id'])
-                    )
+                # print("{} \t Inicia procesamiento de la imagen {} -> {}"
+                #    .format(datetime.now(),
+                #       design['image_id'],
+                #        design['id'])
+                #    )
+
+                print("{} \t Inicio {}" .format(datetime.now(), design['image_id']))
 
                 data['creator'] = design['first_name']
                 data['email'] = design['email']
@@ -188,10 +190,12 @@ def processing(test = False):
                         data['url']
                     )
 
-                print(
-                    '{} \t Diseño: "{}" procesado con exito en [{}] con ({},{})px'.format(
-                        datetime.now(), data['image'], SIZING_METHOD, default_width, default_height
-                    ))
+                # print(
+                #    '{} \t Diseño: "{}" procesado con exito en [{}] con ({},{})px'.format(
+                #        datetime.now(), data['image'], SIZING_METHOD, default_width, default_height
+                #    ))
+
+                print("{} \t Fin {}".format(datetime.now(), design['image_id']))
 
                 # PASO 6: Eliminar temporal
                 os.remove(BASE_DIR / name_simple)
