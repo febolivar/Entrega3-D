@@ -80,7 +80,7 @@ def processing(test = False):
 
         for design in designs_to_process:
             try:
-                print("-"*110)
+                # print("-"*110)
                 # print("{} \t Inicia procesamiento de la imagen {} -> {}"
                 #    .format(datetime.now(),
                 #       design['image_id'],
@@ -112,7 +112,7 @@ def processing(test = False):
                 s3_manager = s3_session.resource('s3')
 
                 s3_bucket = s3_manager.Bucket(os.getenv('AWS_STORAGE_BUCKET_NAME'))
-                print(os.getenv('AWS_STORAGE_BUCKET_NAME'))
+                # print(os.getenv('AWS_STORAGE_BUCKET_NAME'))
 
                 name_simple = data['image'].replace('originals/','')
 
