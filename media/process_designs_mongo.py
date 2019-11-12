@@ -65,7 +65,7 @@ print('Basedir:')
 print(BASE_DIR)
 
 DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
-FONT_SELECTION = "arial.ttf" # FONT_SELECTION = "font/arial.ttf"
+FONT_SELECTION = "/app/media/font/arial.ttf"  # FONT_SELECTION = "font/arial.ttf"
 FONT_SIZE = 24
 RECTANGLE_COLOR = (255,255,255)
 FONT_COLOR = (0,0,0)
