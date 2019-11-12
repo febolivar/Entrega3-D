@@ -112,7 +112,7 @@ def query_in_process():
 
         if design_id != "0":
             # Delete Queue
-            print("{} \t Borrador de mensaje de la cola".format(datetime.now()))
+            # print("{} \t Borrado de mensaje de la cola".format(datetime.now()))
             sqs_client.delete_message(QueueUrl=APP_AWS_QUEUE['sqs_queue_url'],
                                       ReceiptHandle=msg_receipt_handle)
 
@@ -141,7 +141,7 @@ def update_processed_files(imagen_pk, design_pk, file):
 
         designs.update_one(update_desing,processed_design)
 
-        print("{} \t Actualización de diseño correcta".format(datetime.now()))
+        # print("{} \t Actualización de diseño correcta".format(datetime.now()))
 
     except:
         print("{} \t Error en el método update_processed_files".format(datetime.now()))
