@@ -19,7 +19,7 @@ SUBJECT = "Diseño [%s] disponible"
 
 def send_email(password, send_to, name, design_name, enterprise_url = ''):
     """ Function to send a processed design notification """
-    print("{} \t Inicia envío de correo electrónico".format(datetime.now()))
+    # print("{} \t Inicia envío de correo electrónico".format(datetime.now()))
     context = ssl.create_default_context()
 
     with smtplib.SMTP_SSL(

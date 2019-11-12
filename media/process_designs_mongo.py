@@ -95,12 +95,12 @@ def processing(test = False):
                 data['design_pk'] = design['id']
                 data['url'] =  WA_URL + design['url']
 
-                print("{} \t Inicia lectura de imagen en S3"
-                    .format(datetime.now()))
+                # print("{} \t Inicia lectura de imagen en S3"
+                #    .format(datetime.now()))
 
 
-                print(os.getenv('AWS_ACCESS_KEY_ID'))
-                print(os.getenv('AWS_SECRET_ACCESS_KEY'))
+                # print(os.getenv('AWS_ACCESS_KEY_ID'))
+                # print(os.getenv('AWS_SECRET_ACCESS_KEY'))
                 s3_session = boto3.Session(
                     aws_access_key_id = os.getenv('AWS_ACCESS_KEY_ID'),
                     aws_secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY'),
@@ -178,8 +178,8 @@ def processing(test = False):
 
                 # PASO 5: Envía el email de la imagen procesada
                 if not test:
-                    print('Enviar email a: ')
-                    print(data['email'])
+                    # print('Enviar email a: ')
+                    # print(data['email'])
                     send_email(
                         EMAIL_PASSWORD,
                         data['email'],
