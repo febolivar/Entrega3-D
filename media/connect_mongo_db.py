@@ -79,9 +79,9 @@ def query_in_process():
         enterprises = db['users_enterprise']
 
         designs_to_process = list()
-        
+        print('a')
         for item in designs.find({'id': int(design_id)}):
-            
+            print('b')
             designs_to_process.append(
                 {
                     'id': item['id'],
@@ -90,14 +90,16 @@ def query_in_process():
                     'design_project_id' : item['design_project_id'],
                 }
             )
-
+        print('c')
         for item in designs_to_process:
-            image = images.find_one({'image_design_id': item['id']})
-            
-            designer = designers.find_one({'id': item['design_creator_id']})
-
-            project = projects.find_one({'id': item['design_project_id']})
-            enterprise = enterprises.find_one({'id' : project['project_enterprise_id'] })
+            image = images.find_one({'image_design_id': int(item['id'])})
+            print('d')
+            designer = designers.find_one({'id': int(item['design_creator_id'])})
+            print('e')
+            project = projects.find_one({'id': int(item['design_project_id'])})
+            print('f')
+            enterprise = enterprises.find_one({'id' : int(project['project_enterprise_id'])})
+            print('g')
             #print(image)
             #print(designer)
             #print(project)
@@ -107,15 +109,15 @@ def query_in_process():
             item['first_name'] = designer['first_name']
             item['email'] = designer['email']
             item['url'] = enterprise['enterprise_url']
-
+        print('h')
         #print(desings_to_process)
-
+        print('i')
         if design_id != "0":
             # Delete Queue
             # print("{} \t Borrado de mensaje de la cola".format(datetime.now()))
             sqs_client.delete_message(QueueUrl=APP_AWS_QUEUE['sqs_queue_url'],
                                       ReceiptHandle=msg_receipt_handle)
-
+        print('j')
         return designs_to_process
 
     except Exception as e:
