@@ -81,8 +81,10 @@ def query_in_process():
         enterprises = db['users_enterprise']
 
         designs_to_process = list()
-        print('a')
-        print(design_id)
+        if design_id != 0:
+            print('a')
+            print(design_id)
+        
         for item in designs.find({'id': int(design_id)}):
             # print('b')
             designs_to_process.append(
