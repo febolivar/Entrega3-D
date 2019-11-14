@@ -87,7 +87,8 @@ def processing(test = False):
                 #        design['id'])
                 #    )
 
-                print("{} \t Inicio {}" .format(datetime.now(), design['image_id']))
+                # print("\t {} \t Inicial {}" .format(datetime.now(), design['image_id']))
+                print("\t Comienzo {} \t {}".format(datetime.now(), design['image_id']))
 
                 data['creator'] = design['first_name']
                 data['email'] = design['email']
@@ -195,7 +196,8 @@ def processing(test = False):
                 #        datetime.now(), data['image'], SIZING_METHOD, default_width, default_height
                 #    ))
 
-                print("{} \t Fin {}".format(datetime.now(), design['image_id']))
+                # print("{} \t Fin {}".format(datetime.now(), design['image_id']))
+                print("\t Finaliza {} \t {}".format(datetime.now(), design['image_id']))
 
                 # PASO 6: Eliminar temporal
                 os.remove(BASE_DIR / name_simple)
