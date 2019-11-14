@@ -81,7 +81,7 @@ def query_in_process():
         enterprises = db['users_enterprise']
 
         designs_to_process = list()
-        if design_id != '0':
+        # if design_id != '0':
             # print('a')
             # print(design_id)
 
