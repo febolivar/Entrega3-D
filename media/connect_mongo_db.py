@@ -82,8 +82,8 @@ def query_in_process():
 
         designs_to_process = list()
         if design_id != '0':
-            print('a')
-            print(design_id)
+            # print('a')
+            # print(design_id)
 
         for item in designs.find({'id': int(design_id)}):
             # print('b')
