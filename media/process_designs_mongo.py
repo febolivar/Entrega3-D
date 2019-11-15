@@ -88,7 +88,7 @@ def processing(test = False):
                 #    )
 
                 # print("\t {} \t Inicial {}" .format(datetime.now(), design['image_id']))
-                print("\t Procesamiento \t Comienzo \t {} \t {}".format(datetime.now(), design['image_id']))
+                print("\t Procesamiento1 \t Comienzo \t {} \t {}".format(datetime.now(), design['image_id']))
 
                 data['creator'] = design['first_name']
                 data['email'] = design['email']
@@ -188,7 +188,8 @@ def processing(test = False):
                         data['email'],
                         data['creator'],
                         name_file,
-                        data['url']
+                        data['url'],
+                        os.getenv('AWS_STORAGE_CLOUD_DIR') + output_file
                     )
 
                 # print(
@@ -197,7 +198,7 @@ def processing(test = False):
                 #    ))
 
                 # print("{} \t Fin {}".format(datetime.now(), design['image_id']))
-                print("\t Procesamiento \t Finaliza \t {} \t {}".format(datetime.now(), design['image_id']))
+                print("\t Procesamiento1 \t Finaliza \t {} \t {}".format(datetime.now(), design['image_id']))
 
                 # PASO 6: Eliminar temporal
                 os.remove(BASE_DIR / name_simple)
