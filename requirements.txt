@@ -2,3 +2,4 @@ Pillow
 pymongo
 boto3
 sendgrid==6.1.0
+newrelic
