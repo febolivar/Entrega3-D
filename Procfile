@@ -1,1 +1,1 @@
-worker: newrelic-admin run-program python hellodjango/manage.py celeryd -E -B --loglevel=INFO
+worker: newrelic-admin run-program python /app/media/process_designs_mongo.py celeryd -E -B --loglevel=INFO
